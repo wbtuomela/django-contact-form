@@ -7,27 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-13 01:31+0100\n"
+"POT-Creation-Date: 2011-02-24 16:39+0100\n"
 "PO-Revision-Date: 2009-01-26 13:12+0100\n"
 "Last-Translator: Horst Gutmann <zerok@zerokspot.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: forms.py:143
+#: forms.py:251
 msgid "Your name"
-msgstr "Dein Name"
+msgstr "Ihr Name"
 
-#: forms.py:146
+#: forms.py:254
 msgid "Your email address"
-msgstr "Deine E-Mail-Adresse"
+msgstr "Ihre E-Mail-Adresse"
 
-#: forms.py:148
+#: forms.py:256
 msgid "Your message"
-msgstr "Deine Nachricht"
+msgstr "Ihre Nachricht"
 
-#: forms.py:259
+#: forms.py:286
 msgid "Akismet thinks this message is spam"
-msgstr "Akismet hält das für SPAM"
-
+msgstr "Akismet hält Ihre Nachricht für Spam"

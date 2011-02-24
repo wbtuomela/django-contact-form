@@ -146,9 +146,9 @@ class ContactBaseForm(forms.Form):
     
     recipient_list = [mail_tuple[1] for mail_tuple in settings.MANAGERS]
 
-    subject_template_name = "contact_form/contact_form_subject.txt"
+    subject_template_name = "contact_form/subject.txt"
     
-    template_name = 'contact_form/contact_form.txt'
+    template_name = 'contact_form/message.txt'
 
     def message(self):
         """
@@ -248,12 +248,15 @@ class ContactForm(ContactBaseForm):
     """
     name = forms.CharField(max_length=100,
                            widget=forms.TextInput(attrs=attrs_dict),
-                           label=_('Your name'))
+                           label=_('Your name'),
+                           required=True)
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=200)),
-                             label=_('Your email address'))
+                             label=_('Your email address'),
+                             required=True)
     body = forms.CharField(widget=forms.Textarea(attrs=attrs_dict),
-                              label=_('Your message'))
+                              label=_('Your message'),
+                              required=True)
 
 
 class AkismetContactForm(ContactForm):
