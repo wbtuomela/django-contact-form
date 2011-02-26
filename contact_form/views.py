@@ -1,27 +1,19 @@
 """
 View which can render and send email from a contact form.
-
 """
 from django.shortcuts import render_to_response, redirect
+from django.views.generic import FormView
 from django.template import RequestContext
 
 from contact_form.forms import ContactForm
 
 
-def contact_form(request, form_class=ContactForm,
-                 template_name='contact_form/contact_form.html',
-                 success_url=None, extra_context=None,
-                 fail_silently=False):
+class ContactFormView(FormView):
     """
     Render a contact form, validate its input and send an email
-    from it.
+    from it. Subclass it, if you need additional functionality.
 
     **Optional arguments:**
-
-    ``extra_context``
-        A dictionary of variables to add to the template context. Any
-        callable object in this dictionary will be called to produce
-        the end result which appears in the context.
 
     ``fail_silently``
         If ``True``, errors when sending the email will be silently
@@ -47,44 +39,40 @@ def contact_form(request, form_class=ContactForm,
         The template to use for rendering the contact form. If not
         supplied, defaults to
         :template:`contact_form/contact_form.html`.
-
-    **Context:**
-
-    ``form``
-        The form instance.
-    
-    **Template:**
-
-    The value of the ``template_name`` keyword argument, or
-    :template:`contact_form/contact_form.html`.
-
     """
-    #
-    # We set up success_url here, rather than as the default value for
-    # the argument. Trying to do it as the argument's default would
-    # mean evaluating the call to reverse() at the time this module is
-    # first imported, which introduces a circular dependency: to
-    # perform the reverse lookup we need access to contact_form/urls.py,
-    # but contact_form/urls.py in turn imports from this module.
-    #
-    if request.method == 'POST':
-        form = form_class(data=request.POST, files=request.FILES, request=request)
-        if form.is_valid():
-            form.save(fail_silently=fail_silently)
-            if success_url is None:
-                to, args, kwargs = form.get_success_redirect()
-                return redirect(to, *args, **kwargs)
-            else:
-                return redirect(success_url)
-    else:
-        form = form_class(request=request)
 
-    if extra_context is None:
-        extra_context = {}
-    context = RequestContext(request)
-    for key, value in extra_context.items():
-        context[key] = callable(value) and value() or value
-    
-    return render_to_response(template_name,
-                              { 'form': form },
-                              context_instance=context)
+    template_name = 'contact_form/contact_form.html'
+    form_class = ContactForm
+    success_url = None
+    fail_silently = False
+
+    def get_form_kwargs(self):
+        kwargs = super(ContactFormView, self).get_form_kwargs()
+        kwargs["request"] = self.request
+        return kwargs
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == "POST":
+            self.form = self.form_class(data=request.POST, 
+                                files=request.FILES,
+                                request=request)
+            if self.form.is_valid():
+                self.form.save(fail_silently=self.fail_silently)
+
+                # We set up success_url here, rather than as the default value for
+                # the argument. Trying to do it as the argument's default would
+                # mean evaluating the call to reverse() at the time this module is
+                # first imported, which introduces a circular dependency: to
+                # perform the reverse lookup we need access to
+                # contact_form/urls.py, but contact_form/urls.py in turn imports
+                # from this module.
+               
+                if self.success_url is None:
+                    to, args, kwargs = self.form.get_success_redirect()
+                    return redirect(to, *args, **kwargs)
+                else:
+                    return redirect(self.success_url)
+        else:
+            self.form = self.form_class(request=request)
+
+        return super(ContactFormView, self).dispatch(request, *args, **kwargs)
