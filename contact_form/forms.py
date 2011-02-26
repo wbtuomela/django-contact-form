@@ -146,9 +146,9 @@ class ContactBaseForm(forms.Form):
     
     recipient_list = [mail_tuple[1] for mail_tuple in settings.MANAGERS]
 
-    subject_template_name = "contact_form/subject.txt"
+    subject_template_name = "contact_form/contact_form_subject.txt"
     
-    template_name = 'contact_form/message.txt'
+    template_name = 'contact_form/contact_form_message.txt'
 
     def message(self):
         """
