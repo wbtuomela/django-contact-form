@@ -288,3 +288,12 @@ class AkismetContactForm(ContactForm):
                 if akismet_api.comment_check(smart_str(self.cleaned_data['body']), data=akismet_data, build_data=True):
                     raise forms.ValidationError(_("Akismet thinks this message is spam"))
         return self.cleaned_data['body']
+
+
+from recaptcha_works.fields import RecaptchaField
+
+class reCaptchaContactForm(ContactForm):
+    """
+    Contact form with a recatpcha-field added based on recaptcha_works.
+    """
+    captcha = RecaptchaField()

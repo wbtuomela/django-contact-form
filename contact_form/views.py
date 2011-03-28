@@ -4,8 +4,10 @@ View which can render and send email from a contact form.
 from django.shortcuts import render_to_response, redirect
 from django.views.generic import FormView
 from django.template import RequestContext
+from django.utils.decorators import method_decorator
 
-from contact_form.forms import ContactForm
+from contact_form.forms import ContactForm, reCaptchaContactForm
+from recaptcha_works.decorators import fix_recaptcha_remote_ip
 
 
 class ContactFormView(FormView):
@@ -76,3 +78,15 @@ class ContactFormView(FormView):
             self.form = self.form_class(request=request)
 
         return super(ContactFormView, self).dispatch(request, *args, **kwargs)
+
+
+class CaptchaContactFormView(ContactFormView):
+    """ Subclass of ContactFormView using reCaptcha. """
+    form_class = reCaptchaContactForm
+
+    # Decorator necessary for fixing remote IP address
+    @method_decorator(fix_recaptcha_remote_ip)
+    def dispatch(self, *args, **kwargs):
+        return super(CaptchaContactFormView, self).dispatch(*args, **kwargs)    
+
+

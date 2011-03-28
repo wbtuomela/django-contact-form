@@ -14,13 +14,12 @@ hierarchy (for best results with the defaults, include it under
 from django.conf.urls.defaults import *
 from django.views.generic import TemplateView
 
-from contact_form.views import ContactFormView
+from contact_form.views import CaptchaContactFormView
 
 
 urlpatterns = patterns('',
-
     url(r'^$',
-       ContactFormView.as_view(),
+       CaptchaContactFormView.as_view(),
        name='contact_form'),
 
     url(r'^sent/$',
