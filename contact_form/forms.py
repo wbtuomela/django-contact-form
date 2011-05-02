@@ -13,7 +13,7 @@ from django.contrib.sites.models import Site, RequestSite
 from django.utils.translation import ugettext_lazy as _
 
 
-__all__ = ('ContactBaseForm', 'ContactForm', 'AkismetContactForm')
+__all__ = ('ContactBaseForm', 'ContactForm', 'AkismetContactForm', 'SubjectContactForm')
 
 # I put this on all required fields, because it's easier to pick up
 # on them with CSS or JavaScript if they have a class of "required"
@@ -297,3 +297,10 @@ class reCaptchaContactForm(ContactForm):
     Contact form with a recatpcha-field added based on recaptcha_works.
     """
     captcha = RecaptchaField()
+
+class SubjectContactForm(reCaptchaContactForm):
+    subject = forms.CharField(max_length=100,
+                           widget=forms.TextInput(attrs=attrs_dict),
+                           label=_('Subject'),
+                           required=True)
+    
