@@ -6,7 +6,7 @@ from django.views.generic import FormView
 from django.template import RequestContext
 from django.utils.decorators import method_decorator
 
-from contact_form.forms import ContactForm, reCaptchaContactForm
+from contact_form.forms import ContactForm, reCaptchaContactForm, SubjectContactForm
 from recaptcha_works.decorators import fix_recaptcha_remote_ip
 
 
@@ -88,5 +88,14 @@ class CaptchaContactFormView(ContactFormView):
     @method_decorator(fix_recaptcha_remote_ip)
     def dispatch(self, *args, **kwargs):
         return super(CaptchaContactFormView, self).dispatch(*args, **kwargs)    
+
+class SubjectContactFormView(ContactFormView):
+    """ Subclass of ContactFormView using reCaptcha. """
+    form_class = SubjectContactForm
+
+    # Decorator necessary for fixing remote IP address
+    @method_decorator(fix_recaptcha_remote_ip)
+    def dispatch(self, *args, **kwargs):
+        return super(SubjectContactFormView, self).dispatch(*args, **kwargs)    
 
 
