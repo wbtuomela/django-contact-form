@@ -11,6 +11,7 @@ from django.core.mail import send_mail
 from django.template import loader, RequestContext
 from django.contrib.sites.models import Site, RequestSite
 from django.utils.translation import ugettext_lazy as _
+from utils.forms import OrderableFormMixin
 
 
 __all__ = ('ContactBaseForm', 'ContactForm', 'AkismetContactForm', 'SubjectContactForm')
@@ -298,9 +299,11 @@ class reCaptchaContactForm(ContactForm):
     """
     captcha = RecaptchaField()
 
-class SubjectContactForm(reCaptchaContactForm):
+class SubjectContactForm(OrderableFormMixin, reCaptchaContactForm):
+    class Meta:
+        fields = ('name', 'email', 'subject', 'body', 'captcha')
+
     subject = forms.CharField(max_length=100,
                            widget=forms.TextInput(attrs=attrs_dict),
                            label=_('Subject'),
                            required=True)
-    
