@@ -252,7 +252,7 @@ class ContactForm(ContactBaseForm):
                            required=True)
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=200)),
-                             label=_('Your email address'),
+                             label=_('Email address'),
                              required=True)
     body = forms.CharField(widget=forms.Textarea(attrs=attrs_dict),
                               label=_('Your message'),
@@ -296,4 +296,4 @@ class reCaptchaContactForm(ContactForm):
     """
     Contact form with a recatpcha-field added based on recaptcha_works.
     """
-    captcha = RecaptchaField()
+    captcha = RecaptchaField(label='', help_text=_('For your own safety is the captcha code required. It\'s not capital sensitive.'))
