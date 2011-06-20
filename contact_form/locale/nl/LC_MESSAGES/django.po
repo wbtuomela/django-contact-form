@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-19 15:50+0100\n"
-"PO-Revision-Date: 2011-04-04 13:48+0100\n"
+"POT-Creation-Date: 2011-06-20 20:23+0200\n"
+"PO-Revision-Date: 2011-06-20 20:24+0100\n"
 "Last-Translator: Mathijs de Bruin <mathijs@mathijsfietst.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: forms.py:251
+#: forms.py:252
 msgid "Your name"
 msgstr "Je naam"
 
-#: forms.py:254
+#: forms.py:256
 msgid "Your email address"
 msgstr "Je email adres"
 
-#: forms.py:256
+#: forms.py:259
 msgid "Your message"
 msgstr "Je bericht"
 
-#: forms.py:286
+#: forms.py:290
 msgid "Akismet thinks this message is spam"
 msgstr "Akismet denkt dat dit bericht spam bevat. Herschrijf het bericht."
+
+#: forms.py:308
+msgid "Subject"
+msgstr "Onderwerp"
 
