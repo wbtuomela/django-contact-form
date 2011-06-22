@@ -299,9 +299,9 @@ class reCaptchaContactForm(ContactForm):
     """
     captcha = RecaptchaField()
 
-class SubjectContactForm(OrderableFormMixin, reCaptchaContactForm):
+class SubjectContactForm(OrderableFormMixin, ContactForm): #, reCaptchaContactForm):
     class Meta:
-        fields = ('name', 'email', 'subject', 'body', 'captcha')
+        fields = ('name', 'email', 'subject', 'body', )
 
     subject = forms.CharField(max_length=100,
                            widget=forms.TextInput(attrs=attrs_dict),

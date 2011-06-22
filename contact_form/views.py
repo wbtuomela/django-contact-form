@@ -93,9 +93,4 @@ class SubjectContactFormView(ContactFormView):
     """ Subclass of ContactFormView using reCaptcha. """
     form_class = SubjectContactForm
 
-    # Decorator necessary for fixing remote IP address
-    @method_decorator(fix_recaptcha_remote_ip)
-    def dispatch(self, *args, **kwargs):
-        return super(SubjectContactFormView, self).dispatch(*args, **kwargs)    
-
 
