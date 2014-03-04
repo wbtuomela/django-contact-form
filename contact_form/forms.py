@@ -10,8 +10,9 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template import loader, RequestContext
 from django.contrib.sites.models import Site, RequestSite
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, get_language
 
+from captcha.fields import ReCaptchaField
 
 __all__ = ('ContactBaseForm', 'ContactForm', 'AkismetContactForm')
 
@@ -290,10 +291,18 @@ class AkismetContactForm(ContactForm):
         return self.cleaned_data['body']
 
 
-from recaptcha_works.fields import RecaptchaField
-
 class reCaptchaContactForm(ContactForm):
     """
     Contact form with a recatpcha-field added based on recaptcha_works.
     """
-    captcha = RecaptchaField(label='', help_text=_('For your own safety is the captcha code required. It\'s not capital sensitive.'))
+    captcha = ReCaptchaField(
+        label='', help_text=_(
+            'For your own safety is the captcha code required. It\'s not '
+            'capital sensitive.'
+        ),
+        attrs={
+            'theme': 'clean',
+            'tabindex': 0,
+            'lang': get_language()
+        }
+    )

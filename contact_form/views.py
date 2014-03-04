@@ -7,7 +7,6 @@ from django.template import RequestContext
 from django.utils.decorators import method_decorator
 
 from contact_form.forms import ContactForm, reCaptchaContactForm
-from recaptcha_works.decorators import fix_recaptcha_remote_ip
 
 
 class ContactFormView(FormView):
@@ -55,7 +54,7 @@ class ContactFormView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.method == "POST":
-            self.form = self.form_class(data=request.POST, 
+            self.form = self.form_class(data=request.POST,
                                 files=request.FILES,
                                 request=request)
             if self.form.is_valid():
@@ -68,7 +67,7 @@ class ContactFormView(FormView):
                 # perform the reverse lookup we need access to
                 # contact_form/urls.py, but contact_form/urls.py in turn imports
                 # from this module.
-               
+
                 if self.success_url is None:
                     to, args, kwargs = self.form.get_success_redirect()
                     return redirect(to, *args, **kwargs)
@@ -83,10 +82,3 @@ class ContactFormView(FormView):
 class CaptchaContactFormView(ContactFormView):
     """ Subclass of ContactFormView using reCaptcha. """
     form_class = reCaptchaContactForm
-
-    # Decorator necessary for fixing remote IP address
-    @method_decorator(fix_recaptcha_remote_ip)
-    def dispatch(self, *args, **kwargs):
-        return super(CaptchaContactFormView, self).dispatch(*args, **kwargs)    
-
-
