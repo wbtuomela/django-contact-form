@@ -134,26 +134,26 @@ class ContactBaseForm(forms.Form):
     far better to notice errors than to silently not send mail from
     the contact form (see also the Zen of Python: "Errors should never
     pass silently, unless explicitly silenced").
-    
+
     """
     def __init__(self, data=None, files=None, request=None, *args, **kwargs):
         if request is None:
             raise TypeError("Keyword argument 'request' must be supplied")
         super(ContactBaseForm, self).__init__(data=data, files=files, *args, **kwargs)
         self.request = request
-    
+
     from_email = settings.DEFAULT_FROM_EMAIL
-    
+
     recipient_list = [mail_tuple[1] for mail_tuple in settings.MANAGERS]
 
     subject_template_name = "contact_form/contact_form_subject.txt"
-    
+
     template_name = 'contact_form/contact_form_message.txt'
 
     def message(self):
         """
         Render the body of the message to a string.
-        
+
         """
         if callable(self.template_name):
             template_name = self.template_name()
@@ -161,16 +161,16 @@ class ContactBaseForm(forms.Form):
             template_name = self.template_name
         return loader.render_to_string(template_name,
                                        self.get_context())
-    
+
     def subject(self):
         """
         Render the subject of the message to a string.
-        
+
         """
         subject = loader.render_to_string(self.subject_template_name,
                                           self.get_context())
         return ''.join(subject.splitlines())
-    
+
     def get_context(self):
         """
         Return the context used to render the templates for the email
@@ -185,14 +185,14 @@ class ContactBaseForm(forms.Form):
 
         * Any additional variables added by context processors (this
           will be a ``RequestContext``).
-        
+
         """
         if not self.is_valid():
             raise ValueError("Cannot generate Context from invalid contact form")
         return RequestContext(self.request,
                               dict(self.cleaned_data,
                                    site=self.get_current_site()))
-    
+
     def get_message_dict(self):
         """
         Generate the various parts of the message and return them in a
@@ -208,7 +208,7 @@ class ContactBaseForm(forms.Form):
         * ``recipient_list``
 
         * ``subject``
-        
+
         """
         if not self.is_valid():
             raise ValueError("Message cannot be sent from invalid contact form")
@@ -217,7 +217,7 @@ class ContactBaseForm(forms.Form):
             attr = getattr(self, message_part)
             message_dict[message_part] = callable(attr) and attr() or attr
         return message_dict
-    
+
     def get_current_site(self):
         """
         Checks if the sites app is installed and returns a ``RequestSite``
@@ -226,17 +226,17 @@ class ContactBaseForm(forms.Form):
         if Site._meta.installed:
             return Site.objects.get_current()
         return RequestSite(self.request)
-    
+
     def get_success_redirect(self):
         """
         Returns the URL to redirect to after successful run.
         """
         return ('contact_form_sent', (), {})
-    
+
     def save(self, fail_silently=False):
         """
         Build and send the email message.
-        
+
         """
         send_mail(fail_silently=fail_silently, **self.get_message_dict())
 
@@ -266,14 +266,14 @@ class AkismetContactForm(ContactForm):
 
     Requires the setting ``AKISMET_API_KEY``, which should be a valid
     Akismet API key.
-    
+
     Requires a ``request`` object being passed to the form.
 
     """
     def clean_body(self):
         """
         Perform Akismet validation of the message.
-        
+
         """
         if 'body' in self.cleaned_data and getattr(settings, 'AKISMET_API_KEY', ''):
             from akismet import Akismet
