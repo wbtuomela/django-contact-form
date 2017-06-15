@@ -8,7 +8,7 @@ a web interface, and a subclass demonstrating useful functionality.
 from django import forms
 from django.conf import settings
 from django.core.mail import send_mail
-from django.template import loader, RequestContext
+from django.template import loader
 from django.contrib.sites.models import Site
 from django.contrib.sites.requests import RequestSite
 from django.utils.translation import ugettext_lazy as _
