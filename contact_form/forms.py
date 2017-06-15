@@ -160,16 +160,16 @@ class ContactBaseForm(forms.Form):
             template_name = self.template_name()
         else:
             template_name = self.template_name
-        return loader.render_to_string(template_name,
-                                       self.get_context())
+        template = loader.get_template(template_name)
+        return template.render(self.get_context(), self.request)
     
     def subject(self):
         """
         Render the subject of the message to a string.
         
         """
-        subject = loader.render_to_string(self.subject_template_name,
-                                          self.get_context())
+        template = loader.get_tempalte(self.subject_template_name)
+        subject = template.render(self.get_context(), self.request)
         return ''.join(subject.splitlines())
     
     def get_context(self):
