@@ -9,7 +9,8 @@ from django import forms
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template import loader, RequestContext
-from django.contrib.sites.models import Site, RequestSite
+from django.contrib.sites.models import Site
+from django.contrib.sites.requests import RequestSite
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -185,13 +186,13 @@ class ContactBaseForm(forms.Form):
 
         * Any additional variables added by context processors (this
           will be a ``RequestContext``).
+          Django 1.10: RequestContext and Context are plain dictionarys now.
         
         """
         if not self.is_valid():
             raise ValueError("Cannot generate Context from invalid contact form")
-        return RequestContext(self.request,
-                              dict(self.cleaned_data,
-                                   site=self.get_current_site()))
+        return dict(self.cleaned_data,
+                    site=self.get_current_site())
     
     def get_message_dict(self):
         """
