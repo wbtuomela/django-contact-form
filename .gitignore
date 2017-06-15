@@ -1,0 +1,13 @@
+.*.swp
+.*.swo
+*.pyc
+*.pyo
+*.db
+*.vim
+*.egg-info
+.DS_Store
+.coverage
+local_settings.py
+/static/
+/node_modules/
+/bower_components/
