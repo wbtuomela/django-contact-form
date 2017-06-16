@@ -291,10 +291,10 @@ class AkismetContactForm(ContactForm):
         return self.cleaned_data['body']
 
 
-from recaptcha_works.fields import RecaptchaField
+from captcha.fields import ReCaptchaField
 
 class reCaptchaContactForm(ContactForm):
     """
-    Contact form with a recatpcha-field added based on recaptcha_works.
+    Contact form with a recatpcha-field added based on django-recaptcha.
     """
-    captcha = RecaptchaField()
+    captcha = ReCaptchaField()
