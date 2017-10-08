@@ -168,7 +168,7 @@ class ContactBaseForm(forms.Form):
         Render the subject of the message to a string.
         
         """
-        template = loader.get_tempalte(self.subject_template_name)
+        template = loader.get_template(self.subject_template_name)
         subject = template.render(self.get_context(), self.request)
         return ''.join(subject.splitlines())
     
