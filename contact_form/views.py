@@ -3,6 +3,7 @@ View which can render and send email from a contact form.
 """
 from django.shortcuts import render_to_response, redirect
 from django.views.generic import FormView
+from django.template import RequestContext
 from django.utils.decorators import method_decorator
 
 from contact_form.forms import ContactForm, reCaptchaContactForm
